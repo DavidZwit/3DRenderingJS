@@ -14,7 +14,7 @@ function colourTriangle(p1, p2, p3, color) {
 function colourSquare(p1, p2, p3, p4, color) {
     ctx.beginPath();
 
-    ctx.fillStyle = color;
+    ctx.fillStyle = "blue";
     ctx.moveTo(p1.x, p1.y);
     ctx.lineTo(p2.x, p2.y);
     ctx.lineTo(p3.x, p3.y);
@@ -23,39 +23,30 @@ function colourSquare(p1, p2, p3, p4, color) {
     ctx.lineTo(p3.x, p3.y);
     ctx.closePath();
     ctx.stroke();
-    //ctx.fill();
+    ctx.fill();
 }
 
-function colourSquareArray(poligons, vertexes) {
+function colourTriangleArray(poligons, nodes, normals, triangled) {
 
+    //for (var i = Math.round(Math.random() * poligons.length); i < poligons.length; i += Math.abs(Math.round(fps) - 60)) {
     for (var i = 0; i < poligons.length; i++) {
-        colourSquare(vertexes[poligons[i].x.x],
-            vertexes[poligons[i].x.y],
-            vertexes[poligons[i].x.z],
-            vertexes[poligons[i].x.w]);
+        var currObj = poligons[i];
+        console.log(currObj);
+        if (currObj.getLength == 3) {
+
+            console.log("drawingTriangles");
+            colourTriangle(nodes[currObj.x],
+                nodes[currObj.y],
+                nodes[currObj.z]);
+        } else {
+            console.log("drawingSquares");
+
+            colourSquare(nodes[currObj.x],
+                nodes[currObj.y],
+                nodes[currObj.z],
+                nodes[currObj.w]);
+        }
     }
-}
-
-function colourTriangleArray(poligons, nodes, normals) {
-
-    for (var i = Math.round(Math.random() * poligons.length); i < poligons.length; i += Math.abs(Math.round(fps) - 60)) {
-        //for (var i = 0; i < 1; i++) {
-
-        colourTriangle(nodes[poligons[i].x.x],
-            nodes[poligons[i].x.y],
-            nodes[poligons[i].x.z]);
-        /*
-        console.log(normals[poligons[i].y.x], normals[poligons[i].y.y]);
-        console.log(nodes[poligons[i].x.x],
-            nodes[poligons[i].x.y],
-            nodes[poligons[i].x.z]);
-
-        ctx.beginPath();
-        ctx.arc(normals[poligons[i].y.x], normals[poligons[i].y.y], 50, 0, Math.PI * 2);
-        ctx.stroke();
-        */
-    }
-
 }
 
 function sortArrayByVar(array, nodes) {

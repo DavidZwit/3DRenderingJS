@@ -110,6 +110,10 @@ Vector3.prototype = {
         this.y = Math.round(this.y);
         this.z = Math.round(this.z);
         return this;
+    },
+
+    getLength: function () {
+        return 3;
     }
 
 }

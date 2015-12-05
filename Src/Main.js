@@ -29,9 +29,7 @@ var rotation = new Vector3(0, 0, 0);
 var position = new Vector3(c.width / 2, c.height / 2, 0);
 var scale = new Vector3(30, 30, 30);
 
-//var theObject = new triangleThingy();
-//var theObject = new importSquareModel("tilteCanon.obj");
-var theObject = new ImportTriangleModel("canon.obj", rotation, position, scale);
+var theObject = new ImportTriangleModel("Models/glijbaan.obj", rotation, position, scale);
 
 //console.log(theObject.GetRotation);
 
@@ -49,20 +47,17 @@ setInterval(function gameLoop() {
     this.setX = function (value) {
         facesAmound = value;
     }
-    test = new Vector3(0, 0, 0);
-    //console.log(test.x);
 
-    //theObject.GetScale().getX();
-    //theObject.GetScale().setX(10);
-    //theObject.GetScale().getX();
+    //draw();
 
     lastLoop = loopDate;
     FRAMECOUNT++;
 }, 33.5);
 
 function draw() {
-    ctx.fillStyle = "rgba(255, 255, 255, 0.07)";
-    ctx.fillRect(0, 0, c.width, c.height);
+    //ctx.fillStyle = "rgba(255, 255, 255, 0.07)";
+    ctx.clearRect(0, 0, c.width, c.height);
+    //ctx.fillRect(0, 0, c.width, c.height);
     theObject.draw();
     ctx.fillText("fps: " + fps, 20, 20);
     ctx.fillText("faces: " + facesAmound, c.width - 100, 20);
@@ -94,16 +89,17 @@ function mouseMove(event) {
         dragging = true;
         mousePos.x = event.pageX;
         mousePos.y = event.pageY;
+
         draw();
-        /*
-                if (rDown) {
-                    theObject.SetRotation("+", "x", (mousePos.x - oldMousePos.x) * sensitivity);
-                    theObject.SetRotation("+", "y", (mousePos.y - oldMousePos.y) * sensitivity);
-                } else if (sDown) {
-                    theObject.SetScale("+", "x" (mousePos.x - oldMousePos.x) * sensitivity);
-                    theObject.SetScale("+", "x", (mousePos.y - oldMousePos.y) * sensitivity);
-                }
-        */
+
+        if (rDown) {
+            theObject.rotation.z += (mousePos.x - oldMousePos.x) * sensitivity;
+            theObject.rotation.x += (mousePos.y - oldMousePos.y) * sensitivity;
+        } else if (sDown) {
+            theObject.scale.x += (mousePos.x - oldMousePos.x) * sensitivity;
+            theObject.scale.y += (mousePos.y - oldMousePos.y) * sensitivity;
+        }
+
         oldMousePos.x = event.pageX;
         oldMousePos.y = event.pageY;
         dragging = false;

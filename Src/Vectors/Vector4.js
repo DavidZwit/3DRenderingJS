@@ -130,6 +130,9 @@ Vector4.prototype = {
         this.z = Math.round(this.z);
         this.w = Math.round(this.w);
         return this;
-    }
+    },
 
+    getLength: function () {
+        return 4;
+    }
 }

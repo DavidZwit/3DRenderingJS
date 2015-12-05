@@ -91,6 +91,10 @@ Vector2.prototype = {
         this.x = Math.round(this.x);
         this.y = Math.round(this.y);
         return this;
+    },
+
+    getLength: function () {
+        return 2;
     }
 
 }

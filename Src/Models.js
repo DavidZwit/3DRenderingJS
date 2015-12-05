@@ -1,13 +1,12 @@
 this.ImportTriangleModel = function (file, rotation, position, scale) {
 
     var vertexes, faces, normals;
-    var loaded = false;
-    var drawVertexes;
-    var drawNormals;
+    var triangled;
+    var drawVertexes, drawNormals;
 
-    var rotation = rotation;
-    var position = position;
-    var scale = scale;
+    this.rotation = rotation;
+    this.position = position;
+    this.scale = scale;
 
     var oldScale = new Vector3(0, 0, 0);
     var oldRotation = new Vector3(0, 0, 0);
@@ -16,16 +15,17 @@ this.ImportTriangleModel = function (file, rotation, position, scale) {
 }
 
 ImportTriangleModel.prototype = {
+
     draw: function () {
         drawVertexes = clone(this.vertexes);
 
-        scaledObject(drawVertexes, scale, this.oldScale);
+        Transform.functions.scaleObject(drawVertexes, scale, this.oldScale);
 
-        setRotations(rotation, drawVertexes, this.oldRotation);
+        Transform.functions.rotateObject(rotation, drawVertexes, this.oldRotation);
 
-        positionObject(drawVertexes, position, this.oldPosition);
+        Transform.functions.positionObject(drawVertexes, position, this.oldPosition);
 
-        colourTriangleArray(this.faces, drawVertexes, this.rawNormals);
+        colourTriangleArray(this.faces, drawVertexes, this.rawNormals, this.triangled);
 
         //this.oldRotation = rotation, oldPosition = position, oldScale = scale;
     },
@@ -35,8 +35,8 @@ ImportTriangleModel.prototype = {
         this.vertexes = splitTriangilatedObject(answer, 0);
         this.faces = splitTriangilatedObject(answer, 1);
         this.normals = splitTriangilatedObject(answer, 2);
+        this.triangled = splitTriangilatedObject(answer, 3);
         facesAmound += this.faces.length;
         vertexesAmound += this.vertexes.length;
     }
-
 }
