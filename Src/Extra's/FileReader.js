@@ -25,9 +25,10 @@ function splitTriangilatedObject(lines, vertex) {
 
         if (vertex == 0 && values[0] == "v") {
 
-            vertexArray.push(new Vector3(parseFloat(values[1]),
+            vertexArray.push(new Vector4(parseFloat(values[1]),
                 parseFloat(values[2]),
-                parseFloat(values[3])));
+                parseFloat(values[3]),
+                0));
 
         } else if (vertex == 2 && values[0] == "vn") {
 
@@ -40,14 +41,16 @@ function splitTriangilatedObject(lines, vertex) {
             else triangeled = true;
 
             if (triangeled) {
-                faceArray.push(new Vector3(parseFloat((values[1].split('/')[0]) - 1),
+                faceArray.push(new Vector4(parseFloat((values[1].split('/')[0]) - 1),
                     parseFloat(values[2].split('/')[0]) - 1,
-                    parseFloat(values[3].split('/')[0]) - 1))
+                    parseFloat(values[3].split('/')[0]) - 1,
+                    0))
             } else {
                 faceArray.push(new Vector4(parseFloat((values[1].split('/')[0]) - 1),
                     parseFloat(values[2].split('/')[0]) - 1,
                     parseFloat(values[3].split('/')[0]) - 1,
-                    parseFloat(values[4].split('/')[0]) - 1));
+                    parseFloat(values[4].split('/')[0]) - 1,
+                    0));
 
             }
         }

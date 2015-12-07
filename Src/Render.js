@@ -26,26 +26,24 @@ function colourSquare(p1, p2, p3, p4, color) {
     ctx.fill();
 }
 
-function colourTriangleArray(poligons, nodes, normals, triangled) {
+function colourVertexes(poligons, nodes) {
 
     //for (var i = Math.round(Math.random() * poligons.length); i < poligons.length; i += Math.abs(Math.round(fps) - 60)) {
     for (var i = 0; i < poligons.length; i++) {
+
         var currObj = poligons[i];
-        console.log(currObj);
-        if (currObj.getLength == 3) {
+        //if (currObj.getLength() == 3) {
+        colourTriangle(nodes[currObj.x],
+            nodes[currObj.y],
+            nodes[currObj.z]);
+        //}
+        /*else if (currObj.getLength() == 4) {
 
-            console.log("drawingTriangles");
-            colourTriangle(nodes[currObj.x],
-                nodes[currObj.y],
-                nodes[currObj.z]);
-        } else {
-            console.log("drawingSquares");
-
-            colourSquare(nodes[currObj.x],
-                nodes[currObj.y],
-                nodes[currObj.z],
-                nodes[currObj.w]);
-        }
+                   colourSquare(nodes[currObj.x],
+                       nodes[currObj.y],
+                       nodes[currObj.z],
+                       nodes[currObj.w]);
+               }*/
     }
 }
 

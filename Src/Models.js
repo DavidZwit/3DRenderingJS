@@ -17,17 +17,29 @@ this.ImportTriangleModel = function (file, rotation, position, scale) {
 ImportTriangleModel.prototype = {
 
     draw: function () {
+
         drawVertexes = clone(this.vertexes);
+        //console.log(position);
+        ///*
 
-        Transform.functions.scaleObject(drawVertexes, scale, this.oldScale);
+        var rotMatrix = calculateRotationMatrix(rotation.x, rotation.y, rotation.z);
+        //console.log("roattion: ", rotation);
+        var transMatrix = calculateMatrix(new Matrix.Translate(position), rotMatrix, new Matrix.Scale(scale));
+        //console.log("transformedMatrix", transMatrix);
 
-        Transform.functions.rotateObject(rotation, drawVertexes, this.oldRotation);
+        applyMatrixToVertexes(drawVertexes, transMatrix);
+        positionObject(drawVertexes, position);
+        //console.log("drawVertexes", drawVertexes);
+        colourVertexes(this.faces, drawVertexes);
 
-        Transform.functions.positionObject(drawVertexes, position, this.oldPosition);
+        //*/
 
-        colourTriangleArray(this.faces, drawVertexes, this.rawNormals, this.triangled);
-
-        //this.oldRotation = rotation, oldPosition = position, oldScale = scale;
+        /*
+        scaleObject(drawVertexes, scale);
+        rotateObject(rotation, drawVertexes);
+        positionObject(drawVertexes, position);
+        colourVertexes(this.faces, drawVertexes);
+        */
     },
 
     read: function (answer) {

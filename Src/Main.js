@@ -1,5 +1,5 @@
 var FRAMECOUNT = 0;
-var FRAMESKIP = 60;
+var FRAMESKIP = 1;
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
@@ -29,9 +29,8 @@ var rotation = new Vector3(0, 0, 0);
 var position = new Vector3(c.width / 2, c.height / 2, 0);
 var scale = new Vector3(30, 30, 30);
 
-var theObject = new ImportTriangleModel("Models/glijbaan.obj", rotation, position, scale);
+var theObject = new ImportTriangleModel("Models/tilteCanon.obj", rotation, position, scale);
 
-//console.log(theObject.GetRotation);
 
 setInterval(function gameLoop() {
     loopDate = new Date;
@@ -40,7 +39,7 @@ setInterval(function gameLoop() {
     ctx.fillText("fps: " + Math.round(fps), 20, 20);
     ctx.fillText("faces: " + facesAmound, c.width - 100, 20);
     ctx.fillText("vertexes: " + vertexesAmound, c.width - 100, 30);
-    //draw();
+    draw();
     this.setX = function () {
         return facesAmound;
     }
@@ -55,9 +54,9 @@ setInterval(function gameLoop() {
 }, 33.5);
 
 function draw() {
-    //ctx.fillStyle = "rgba(255, 255, 255, 0.07)";
-    ctx.clearRect(0, 0, c.width, c.height);
-    //ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.07)";
+    //ctx.clearRect(0, 0, c.width, c.height);
+    ctx.fillRect(0, 0, c.width, c.height);
     theObject.draw();
     ctx.fillText("fps: " + fps, 20, 20);
     ctx.fillText("faces: " + facesAmound, c.width - 100, 20);
@@ -90,8 +89,9 @@ function mouseMove(event) {
         mousePos.x = event.pageX;
         mousePos.y = event.pageY;
 
-        draw();
-
+        if (!(FRAMECOUNT % FRAMESKIP)) {
+            //draw();
+        }
         if (rDown) {
             theObject.rotation.z += (mousePos.x - oldMousePos.x) * sensitivity;
             theObject.rotation.x += (mousePos.y - oldMousePos.y) * sensitivity;
