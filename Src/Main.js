@@ -29,7 +29,7 @@ var rotation = new Vector3(0, 0, 0);
 var position = new Vector3(c.width / 2, c.height / 2, 0);
 var scale = new Vector3(30, 30, 30);
 
-var theObject = new ImportTriangleModel("Models/tilteCanon.obj", rotation, position, scale);
+var theObject = new ImportTriangleModel("Models/snoepertje.obj", rotation, position, scale);
 
 
 setInterval(function gameLoop() {
@@ -39,7 +39,6 @@ setInterval(function gameLoop() {
     ctx.fillText("fps: " + Math.round(fps), 20, 20);
     ctx.fillText("faces: " + facesAmound, c.width - 100, 20);
     ctx.fillText("vertexes: " + vertexesAmound, c.width - 100, 30);
-    draw();
     this.setX = function () {
         return facesAmound;
     }
@@ -47,7 +46,7 @@ setInterval(function gameLoop() {
         facesAmound = value;
     }
 
-    //draw();
+    draw();
 
     lastLoop = loopDate;
     FRAMECOUNT++;
@@ -94,7 +93,7 @@ function mouseMove(event) {
         }
         if (rDown) {
             theObject.rotation.z += (mousePos.x - oldMousePos.x) * sensitivity;
-            theObject.rotation.x += (mousePos.y - oldMousePos.y) * sensitivity;
+            theObject.rotation.y += (mousePos.y - oldMousePos.y) * sensitivity;
         } else if (sDown) {
             theObject.scale.x += (mousePos.x - oldMousePos.x) * sensitivity;
             theObject.scale.y += (mousePos.y - oldMousePos.y) * sensitivity;

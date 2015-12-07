@@ -28,8 +28,8 @@ function colourSquare(p1, p2, p3, p4, color) {
 
 function colourVertexes(poligons, nodes) {
 
-    //for (var i = Math.round(Math.random() * poligons.length); i < poligons.length; i += Math.abs(Math.round(fps) - 60)) {
-    for (var i = 0; i < poligons.length; i++) {
+    for (var i = Math.round(Math.random() * poligons.length); i < poligons.length; i += Math.abs(Math.round(fps) - 60)) {
+        //for (var i = 0; i < poligons.length; i++) {
 
         var currObj = poligons[i];
         //if (currObj.getLength() == 3) {
