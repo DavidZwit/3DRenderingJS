@@ -3,16 +3,6 @@ var FRAMESKIP = 1;
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-c.addEventListener("mousedown", mouseDown, false);
-c.addEventListener("mouseup", mouseUp, false);
-c.addEventListener("mousemove", mouseMove, false);
-window.addEventListener("keydown", keyDown, false);
-window.addEventListener("keyup", keyUp, false);
-
-var mousePos = new Vector2(0, 0);
-var oldMousePos = new Vector2(0, 0);
-var mouseDown = false;
-var rDown, sDown;
 
 var lastLoop = new Date;
 var loopDate;
@@ -21,7 +11,6 @@ ctx.font = "80px, Georgia";
 
 var facesAmound = 0;
 var vertexesAmound = 0;
-var dragging;
 
 var sensitivity = 0.01;
 
@@ -29,7 +18,12 @@ var rotation = new Vector3(0, 0, 0);
 var position = new Vector3(c.width / 2, c.height / 2, 0);
 var scale = new Vector3(30, 30, 30);
 
-var theObject = new ImportTriangleModel("Models/snoepertje.obj", rotation, position, scale);
+var input = new Input();
+var theObject = new ImportModel("Models/snoepertje.obj", rotation, position, scale);
+
+var camera = new ImportModel("Models/Arrow.obj", new Vector3(),
+    new Vector3(c.width / 2, c.height / 2, 0),
+    new Vector3(20, 20, 20));
 
 
 setInterval(function gameLoop() {
@@ -39,6 +33,9 @@ setInterval(function gameLoop() {
     ctx.fillText("fps: " + Math.round(fps), 20, 20);
     ctx.fillText("faces: " + facesAmound, c.width - 100, 20);
     ctx.fillText("vertexes: " + vertexesAmound, c.width - 100, 30);
+
+    rotateObject();
+
     this.setX = function () {
         return facesAmound;
     }
@@ -52,59 +49,28 @@ setInterval(function gameLoop() {
     FRAMECOUNT++;
 }, 33.5);
 
+
+function rotateObject() {
+
+    if (input.getKey(82) && input.mouseDown) {
+        theObject.rotation.y += input.mouseDelta.x * sensitivity;
+        theObject.rotation.x += input.mouseDelta.y * sensitivity;
+    }
+
+}
+
 function draw() {
-    ctx.fillStyle = "rgba(255, 255, 255, 0.07)";
-    //ctx.clearRect(0, 0, c.width, c.height);
-    ctx.fillRect(0, 0, c.width, c.height);
+    //ctx.fillStyle = "rgba(255, 255, 255, 0.07)";
+    //ctx.fillRect(0, 0, c.width, c.height);
+    ctx.clearRect(0, 0, c.width, c.height);
+
+
+    theObject.calculateObjectMatrix();
+    theObject.calculateVertexes(theObject.modelToWorldMatrix);
     theObject.draw();
+
+    //UI:
     ctx.fillText("fps: " + fps, 20, 20);
     ctx.fillText("faces: " + facesAmound, c.width - 100, 20);
     ctx.fillText("vertexes: " + vertexesAmound, c.width - 100, 30);
-}
-
-function keyDown(e) {
-    if (e.keyCode == 82) {
-        rDown = true;
-    } else if (e.keyCode == 83) {
-        sDown = true;
-    }
-}
-
-function keyUp(e) {
-    if (e.keyCode == 82) {
-        rDown = false;
-    } else if (e.keyCode == 83) {
-        sDown = false;
-    }
-}
-
-function mouseDown() {
-    mouseDown = true;
-}
-
-function mouseMove(event) {
-    if (mouseDown) {
-        dragging = true;
-        mousePos.x = event.pageX;
-        mousePos.y = event.pageY;
-
-        if (!(FRAMECOUNT % FRAMESKIP)) {
-            //draw();
-        }
-        if (rDown) {
-            theObject.rotation.z += (mousePos.x - oldMousePos.x) * sensitivity;
-            theObject.rotation.y += (mousePos.y - oldMousePos.y) * sensitivity;
-        } else if (sDown) {
-            theObject.scale.x += (mousePos.x - oldMousePos.x) * sensitivity;
-            theObject.scale.y += (mousePos.y - oldMousePos.y) * sensitivity;
-        }
-
-        oldMousePos.x = event.pageX;
-        oldMousePos.y = event.pageY;
-        dragging = false;
-    }
-}
-
-function mouseUp() {
-    mouseDown = false;
 }

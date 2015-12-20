@@ -16,6 +16,7 @@ this.calculateRotationMatrix = function (Xrot, Yrot, Zrot) {
 }
 
 this.applyMatrixToVertexes = function (vertexes, matrix) {
+    // console.log(matrix);
     for (var i = 0; i < vertexes.length; i++) {
         vertexes[i] = matrix.MullVect(vertexes[i]);
     }

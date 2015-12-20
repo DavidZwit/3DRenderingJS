@@ -8,6 +8,7 @@ function readModel(file, returnFunction) {
         if (rawFile.readyState == 4) {
             lines = rawFile.responseText;
             theObject.read(lines);
+
         }
     }
 }

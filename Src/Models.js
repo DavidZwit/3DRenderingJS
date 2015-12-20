@@ -1,33 +1,33 @@
-this.ImportTriangleModel = function (file, rotation, position, scale) {
+this.ImportModel = function (file, rotation, position, scale) {
 
     var vertexes, faces, normals;
-    var triangled;
-    var drawVertexes, drawNormals;
+    var drawVertexes;
 
     this.rotation = rotation;
     this.position = position;
     this.scale = scale;
 
-    var oldScale = new Vector3(0, 0, 0);
-    var oldRotation = new Vector3(0, 0, 0);
-    var oldPosition = new Vector3(0, 0, 0);
+    this.modelToWorldMatrix = new Matrix();
+
     readModel(file);
 }
 
-ImportTriangleModel.prototype = {
+ImportModel.prototype = {
 
-    draw: function () {
-        var drawVertexes = clone(this.vertexes);
 
+    calculateObjectMatrix: function () {
         var rotMatrix = calculateRotationMatrix(rotation.x, rotation.y, rotation.z);
+        this.matrix = calculateMatrix(new Matrix.Translate(position), rotMatrix, new Matrix.Scale(scale));
+    },
 
-        var transMatrix = calculateMatrix(new Matrix.Translate(position), rotMatrix, new Matrix.Scale(scale));
+    calculateVertexes: function (matrix) {
+        this.drawVertexes = clone(this.vertexes);
+        applyMatrixToVertexes(this.drawVertexes, this.matrix);
+        positionObject(this.drawVertexes, position);
+    },
 
-        applyMatrixToVertexes(drawVertexes, transMatrix);
-
-        positionObject(drawVertexes, position);
-
-        colourVertexes(this.faces, drawVertexes);
+    draw: function (matrix) {
+        colourVertexes(this.faces, this.drawVertexes);
     },
 
     read: function (answer) {
