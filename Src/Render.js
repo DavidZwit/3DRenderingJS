@@ -1,6 +1,6 @@
 function colourTriangle(p1, p2, p3, color) {
     ctx.beginPath();
-    ctx.fillStyle = "blue";
+    ctx.fillStyle = color;
     ctx.moveTo(p1.x, p1.y);
     ctx.lineTo(p2.x, p2.y);
     ctx.lineTo(p3.x, p3.y);
@@ -26,7 +26,7 @@ function colourSquare(p1, p2, p3, p4, color) {
     //ctx.fill();
 }
 
-function colourVertexes(poligons, nodes) {
+function colourVertexes(poligons, nodes, colour) {
 
     //for (var i = Math.round(Math.random() * poligons.length); i < poligons.length; i += Math.abs(Math.round(fps) - 60)) {
     for (var i = 0; i < poligons.length; i++) {
@@ -35,7 +35,8 @@ function colourVertexes(poligons, nodes) {
 
         colourTriangle(nodes[currObj.x],
             nodes[currObj.y],
-            nodes[currObj.z]);
+            nodes[currObj.z],
+            colour);
     }
 }
 

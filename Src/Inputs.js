@@ -90,5 +90,10 @@ Input.prototype = {
             this.keysLettenGoOf[keycode] = false;
             return false;
         }
+    },
+
+    getDragging: function () {
+        if (dragging) return true;
+        else return false;
     }
 }

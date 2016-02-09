@@ -1,42 +1,102 @@
-this.ImportModel = function (file, rotation, position, scale) {
+this.ImportModel = function (file, rotation, position, scale, name, tag) {
+
 
     var vertexes, faces, normals;
     var drawVertexes;
+
+    this.name = name;
+    this.tag;
 
     this.rotation = rotation;
     this.position = position;
     this.scale = scale;
 
-    this.modelToWorldMatrix = new Matrix();
+    this.worldSpaceMatrix = new Matrix();
+    this.viewSpaceMatrix = new Matrix();
+    this.projectionMatrix = new Matrix();
 
-    readModel(file);
+    var self = this;
+
+    this.readFile = function (file) {
+        var rawFile = new XMLHttpRequest();
+
+        rawFile.open("GET", file, true);
+        rawFile.send();
+
+        rawFile.onreadystatechange = function () {
+            if (rawFile.readyState == 4) {
+                var lines = rawFile.responseText;
+
+                self.splitLines(lines);
+            }
+        }
+    }
+
+    this.readFile(file)
 }
 
 ImportModel.prototype = {
 
 
     calculateObjectMatrix: function () {
-        var rotMatrix = calculateRotationMatrix(rotation.x, rotation.y, rotation.z);
-        this.matrix = calculateMatrix(new Matrix.Translate(position), rotMatrix, new Matrix.Scale(scale));
+        var rotMatrix = calculateRotationMatrix(this.rotation.x, this.rotation.y, this.rotation.z);
+        this.worldSpaceMatrix = calculateMatrix(new Matrix.Translate(this.position), rotMatrix, new Matrix.Scale(this.scale));
     },
 
     calculateVertexes: function (matrix) {
         this.drawVertexes = clone(this.vertexes);
-        applyMatrixToVertexes(this.drawVertexes, this.matrix);
-        positionObject(this.drawVertexes, position);
+        applyMatrixToVertexes(this.drawVertexes, matrix);
+        positionObject(this.drawVertexes, this.position);
     },
 
-    draw: function (matrix) {
-        colourVertexes(this.faces, this.drawVertexes);
+    draw: function (colour) {
+        colourVertexes(this.faces, this.drawVertexes, colour);
     },
+
+    //Reading the file
 
     read: function (answer) {
 
-        this.vertexes = splitTriangilatedObject(answer, 0);
-        this.faces = splitTriangilatedObject(answer, 1);
-        this.normals = splitTriangilatedObject(answer, 2);
-        this.triangled = splitTriangilatedObject(answer, 3);
-        facesAmound += this.faces.length;
-        vertexesAmound += this.vertexes.length;
+    },
+
+    splitLines: function (lines) {
+        var lineArray = lines.split('\n');
+        var vertexArray = new Array();
+        var faceArray = new Array();
+        var normalArray = new Array();
+        var triangeled = true;
+
+        for (var i = 0; i < lineArray.length; i++) {
+
+            values = lineArray[i].split(' ');
+
+            if (values[0] == "v") {
+
+                vertexArray.push(new Vector4(parseFloat(values[1]),
+                    parseFloat(values[2]),
+                    parseFloat(values[3]),
+                    0));
+
+            } else if (values[0] == "vn") {
+
+                normalArray.push(new Vector3(parseFloat(values[1]),
+                    parseFloat(values[2]),
+                    parseFloat(values[3])));
+
+            } else if (values[0] == "f") {
+
+                faceArray.push(new Vector4(parseFloat((values[1].split('/')[0]) - 1),
+                    parseFloat(values[2].split('/')[0]) - 1,
+                    parseFloat(values[3].split('/')[0]) - 1,
+                    0))
+            }
+        }
+
+        this.vertexes = vertexArray;
+        this.faces = faceArray;
+        this.normals = normalArray;
+
+        facesAmound += faceArray.length;
+        vertexesAmound += vertexArray.length;
     }
 }

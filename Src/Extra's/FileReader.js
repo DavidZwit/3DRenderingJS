@@ -38,22 +38,11 @@ function splitTriangilatedObject(lines, vertex) {
                 parseFloat(values[3])));
 
         } else if (vertex == 1 && values[0] == "f") {
-            if (values.length > 4) triangeled = false;
-            else triangeled = true;
 
-            if (triangeled) {
-                faceArray.push(new Vector4(parseFloat((values[1].split('/')[0]) - 1),
-                    parseFloat(values[2].split('/')[0]) - 1,
-                    parseFloat(values[3].split('/')[0]) - 1,
-                    0))
-            } else {
-                faceArray.push(new Vector4(parseFloat((values[1].split('/')[0]) - 1),
-                    parseFloat(values[2].split('/')[0]) - 1,
-                    parseFloat(values[3].split('/')[0]) - 1,
-                    parseFloat(values[4].split('/')[0]) - 1,
-                    0));
-
-            }
+            faceArray.push(new Vector4(parseFloat((values[1].split('/')[0]) - 1),
+                parseFloat(values[2].split('/')[0]) - 1,
+                parseFloat(values[3].split('/')[0]) - 1,
+                0))
         }
     }
 

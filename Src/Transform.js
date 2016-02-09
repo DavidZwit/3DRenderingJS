@@ -2,9 +2,9 @@ this.Transform = function (tag) {
     this.tag = tag;
 }
 
-
 this.calculateMatrix = function (Translation, Rotation, Scale) {
-    return Scale.MullMatrix(Rotation);
+    //console.log(Translation);
+    return Scale.MullMatrix(Rotation.MullMatrix(Translation));
 }
 
 this.calculateRotationMatrix = function (Xrot, Yrot, Zrot) {
