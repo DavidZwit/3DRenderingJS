@@ -8,36 +8,29 @@ function colourTriangle(p1, p2, p3, color) {
     ctx.lineTo(p3.x, p3.y);
     ctx.closePath();
     ctx.stroke();
-    //ctx.fill();
-}
-
-function colourSquare(p1, p2, p3, p4, color) {
-    ctx.beginPath();
-
-    ctx.fillStyle = "blue";
-    ctx.moveTo(p1.x, p1.y);
-    ctx.lineTo(p2.x, p2.y);
-    ctx.lineTo(p3.x, p3.y);
-    ctx.moveTo(p4.x, p4.y);
-    ctx.lineTo(p2.x, p2.y);
-    ctx.lineTo(p3.x, p3.y);
-    ctx.closePath();
-    ctx.stroke();
-    //ctx.fill();
+    if (fill) ctx.fill();
 }
 
 function colourVertexes(poligons, nodes, colour) {
+    if (randomDraw) {
+        for (var i = Math.round(Math.random() * poligons.length); i < poligons.length; i += Math.abs(Math.round(fps) - 60)) {
+            var currObj = poligons[i];
 
-    //for (var i = Math.round(Math.random() * poligons.length); i < poligons.length; i += Math.abs(Math.round(fps) - 60)) {
-    for (var i = 0; i < poligons.length; i++) {
+            colourTriangle(nodes[currObj.x],
+                nodes[currObj.y], nodes[currObj.z], colour);
 
-        var currObj = poligons[i];
+        }
 
-        colourTriangle(nodes[currObj.x],
-            nodes[currObj.y],
-            nodes[currObj.z],
-            colour);
+    } else {
+        for (var i = 0; i < poligons.length; i++) {
+            var currObj = poligons[i];
+
+            colourTriangle(nodes[currObj.x],
+                nodes[currObj.y], nodes[currObj.z], colour);
+            ctx.stroke();
+        }
     }
+
 }
 
 function sortArrayByVar(array, nodes) {

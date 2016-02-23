@@ -1,4 +1,4 @@
-function readModel(file, returnFunction) {
+function readModel(file) {
     var rawFile = new XMLHttpRequest();
 
     rawFile.open("GET", file, true);

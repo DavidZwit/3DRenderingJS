@@ -28,6 +28,13 @@ Vector3.prototype = {
         return this;
     },
 
+    addFloat: function (float) {
+        this.x += float;
+        this.y += float;
+        this.z += float;
+        return this;
+    },
+
     addVectors: function (vec1, vec2) {
         this.x = vec1.x + vec2.x;
         this.y = vec1.y + vec2.y;

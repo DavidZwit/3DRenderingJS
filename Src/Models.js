@@ -96,7 +96,7 @@ ImportModel.prototype = {
         this.faces = faceArray;
         this.normals = normalArray;
 
-        facesAmound += faceArray.length;
-        vertexesAmound += vertexArray.length;
+        facesAmound = faceArray.length;
+        vertexesAmound = vertexArray.length;
     }
 }
